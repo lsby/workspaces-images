@@ -30,15 +30,15 @@ done
 
 FORCE=$2
 
-kasm_exec() {
+ () {
     if [ -n "$OPT_URL" ] ; then
         URL=$OPT_URL
     elif [ -n "$1" ] ; then
         URL=$1
-    fi 
-    
-    # Since we are execing into a container that already has the browser running from startup, 
-    #  when we don't have a URL to open we want to do nothing. Otherwise a second browser instance would open. 
+    fi
+
+    # Since we are execing into a container that already has the browser running from startup,
+    #  when we don't have a URL to open we want to do nothing. Otherwise a second browser instance would open.
     if [ -n "$URL" ] ; then
         /usr/bin/filter_ready
         /usr/bin/desktop_ready
@@ -72,10 +72,14 @@ kasm_startup() {
             sleep 1
         done
         set -x
-    
+
     fi
 
-} 
+}
+
+# 删除锁文件
+LOCK_PATH="$HOME/.config/microsoft-edge"
+rm -f "$LOCK_PATH/SingletonLock" "$LOCK_PATH/SingletonSocket" "$LOCK_PATH/SingletonCookie"
 
 if [ -n "$GO" ] || [ -n "$ASSIGN" ] ; then
     kasm_exec
